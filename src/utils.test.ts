@@ -1,15 +1,16 @@
+import { CellStates, GameAreaType } from './types';
 import { STATE_ONE, STATE_TWO } from './states';
-import { getNewState, getParsedGameArea } from './utils';
+import { getNewState, getParsedGameArea, getStringifiedGameArea } from './utils';
+
+const STRING_STATE = '1,0;0,1;';
+const ARRAY_STATE: GameAreaType = [
+  [CellStates.LIVE, CellStates.DEAD],
+  [CellStates.DEAD, CellStates.LIVE],
+];
 
 describe('getParsedGameArea function:', () => {
-  test('return parsed array state from string', () => {
-    const validState = '1,0;0,1;';
-    const validReturns = [
-      ['1', '0'],
-      ['0', '1'],
-    ];
-
-    expect(getParsedGameArea(validState)).toStrictEqual(validReturns);
+  test('returns parsed array state from string', () => {
+    expect(getParsedGameArea(STRING_STATE)).toStrictEqual(ARRAY_STATE);
   });
 
   test('throw error while game state contains not valid cell states', () => {
@@ -22,6 +23,12 @@ describe('getParsedGameArea function:', () => {
     const notValidState = '1,0;';
 
     expect(() => getParsedGameArea(notValidState)).toThrowError('Not valid game state!');
+  });
+});
+
+describe('getStringifiedGameArea function:', () => {
+  test('returns parsed string state from array', () => {
+    expect(getStringifiedGameArea(ARRAY_STATE)).toBe(STRING_STATE);
   });
 });
 

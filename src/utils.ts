@@ -1,14 +1,10 @@
-enum CellStates {
-  LIVE = '1',
-  DEAD = '0',
-}
-
-type GameAreaType = Array<Array<CellStates>>;
+import { CELL_SEPARATOR, ROW_SEPARATOR } from './const';
+import { CellStates, GameAreaType } from './types';
 
 export const getParsedGameArea = (gameState: string): GameAreaType => {
-  const parsedState = gameState.split(';').reduce((acc: GameAreaType, row) => {
+  const parsedState = gameState.split(ROW_SEPARATOR).reduce((acc: GameAreaType, row) => {
     if (row) {
-      acc.push(row.split(',') as Array<CellStates>);
+      acc.push(row.split(CELL_SEPARATOR) as Array<CellStates>);
     }
     return acc;
   }, []);
@@ -24,6 +20,11 @@ export const getParsedGameArea = (gameState: string): GameAreaType => {
   }
 
   return parsedState as GameAreaType;
+};
+
+export const getStringifiedGameArea = (gameState: GameAreaType): string => {
+  const parsedState = gameState.map((row) => row.join(CELL_SEPARATOR)).join(ROW_SEPARATOR);
+  return `${parsedState}${ROW_SEPARATOR}`;
 };
 
 export const getNewState = (initState: string): string => {

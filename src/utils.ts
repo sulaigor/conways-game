@@ -58,21 +58,20 @@ export const getCellSurroundingsCount = (
   return surroundingsCount;
 };
 
-export const getNewState = (initState: string): string => {
-  const parsedGameArea = getParsedGameArea(initState);
+export const getNewState = (currentGameArea: GameAreaType): GameAreaType => {
   const newGameArea: GameAreaType = [];
 
-  for (const y in parsedGameArea) {
-    const currentRow = parsedGameArea[y];
+  for (const y in currentGameArea) {
+    const currentRow = currentGameArea[y];
     newGameArea.push([]);
 
     for (const x in currentRow) {
-      const currentCellSurroundings = getCellSurroundingsCount(parsedGameArea, {
+      const currentCellSurroundings = getCellSurroundingsCount(currentGameArea, {
         x: parseInt(x),
         y: parseInt(y),
       });
 
-      if (parsedGameArea[y][x] === CellStates.LIVE) {
+      if (currentGameArea[y][x] === CellStates.LIVE) {
         if (currentCellSurroundings === 2 || currentCellSurroundings === 3) {
           newGameArea[y][x] = CellStates.LIVE;
         } else {
@@ -88,5 +87,5 @@ export const getNewState = (initState: string): string => {
     }
   }
 
-  return getStringifiedGameArea(newGameArea);
+  return newGameArea;
 };

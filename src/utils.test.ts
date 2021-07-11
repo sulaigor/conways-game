@@ -67,11 +67,14 @@ describe('getCellSurroundingsCount function:', () => {
 });
 
 describe('getNewState function:', () => {
+  const parsedStateOne = getParsedGameArea(STATE_ONE);
+  const parsedStateTwo = getParsedGameArea(STATE_TWO);
+
   test('return STATE_TWO from STATE_ONE', () => {
-    expect(getNewState(STATE_ONE)).toBe(STATE_TWO);
+    expect(getNewState(parsedStateOne)).toStrictEqual(parsedStateTwo);
   });
 
   test('return STATE_ONE from STATE_TWO', () => {
-    expect(getNewState(STATE_TWO)).toBe(STATE_ONE);
+    expect(getNewState(parsedStateTwo)).toStrictEqual(parsedStateOne);
   });
 });

@@ -1,6 +1,6 @@
 import { CellStates, GameAreaType } from './types';
 import { STATE_ONE, STATE_TWO } from './states';
-import { getNewState, getParsedGameArea, getStringifiedGameArea } from './utils';
+import { getNewState, getParsedGameArea, getStringifiedGameArea, getCellSurroundingsCount } from './utils';
 
 const STRING_STATE = '1,0;0,1;';
 const ARRAY_STATE: GameAreaType = [
@@ -29,6 +29,34 @@ describe('getParsedGameArea function:', () => {
 describe('getStringifiedGameArea function:', () => {
   test('returns parsed string state from array', () => {
     expect(getStringifiedGameArea(ARRAY_STATE)).toBe(STRING_STATE);
+  });
+});
+
+describe('getCellSurroundingsCount function:', () => {
+  const gameArea: GameAreaType = [
+    [CellStates.LIVE, CellStates.LIVE, CellStates.DEAD],
+    [CellStates.DEAD, CellStates.LIVE, CellStates.DEAD],
+    [CellStates.DEAD, CellStates.LIVE, CellStates.DEAD],
+  ];
+
+  test('returns valid surroundings count of live cell', () => {
+    expect(getCellSurroundingsCount(gameArea, { x: 1, y: 1 })).toBe(3);
+  });
+
+  test('returns valid surroundings count of dead cell', () => {
+    expect(getCellSurroundingsCount(gameArea, { x: 2, y: 1 })).toBe(3);
+  });
+
+  test('throw error while x position is out of game area', () => {
+    expect(() => getCellSurroundingsCount(gameArea, { x: 3, y: 0 })).toThrowError('Not valid position!');
+  });
+
+  test('throw error while x position is negative', () => {
+    expect(() => getCellSurroundingsCount(gameArea, { x: -1, y: 0 })).toThrowError('Not valid position!');
+  });
+
+  test('not throw error while position is in of game area', () => {
+    expect(() => getCellSurroundingsCount(gameArea, { x: 0, y: 0 })).not.toThrowError('Not valid position!');
   });
 });
 

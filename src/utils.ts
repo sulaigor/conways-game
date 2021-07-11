@@ -1,5 +1,5 @@
 import { CELL_SEPARATOR, ROW_SEPARATOR } from './const';
-import { CellStates, GameAreaType } from './types';
+import { CellStates, GameAreaType, ICellPosition } from './types';
 
 export const getParsedGameArea = (gameState: string): GameAreaType => {
   const parsedState = gameState.split(ROW_SEPARATOR).reduce((acc: GameAreaType, row) => {
@@ -25,6 +25,33 @@ export const getParsedGameArea = (gameState: string): GameAreaType => {
 export const getStringifiedGameArea = (gameState: GameAreaType): string => {
   const parsedState = gameState.map((row) => row.join(CELL_SEPARATOR)).join(ROW_SEPARATOR);
   return `${parsedState}${ROW_SEPARATOR}`;
+};
+
+export const getCellSurroundingsCount = (
+  gameArea: GameAreaType,
+  currentCellPosition: ICellPosition,
+): number => {
+  const { x, y } = currentCellPosition;
+  if (x < 0 || y < 0 || x > gameArea.length - 1 || y > gameArea.length - 1) {
+    throw new Error('Not valid position!');
+  }
+
+  let surroundingsCount = 0;
+  const surroundingsPositions = [-1, 0, 1];
+
+  for (const surroundingsY of surroundingsPositions) {
+    for (const surroundingsX of surroundingsPositions) {
+      const neighborCellX = x + surroundingsX;
+      const neighborCellY = y + surroundingsY;
+
+      if (neighborCellX === x && neighborCellY === y) continue;
+
+      const neighborCell = gameArea[neighborCellY]?.[neighborCellX];
+      if (neighborCell) surroundingsCount += parseInt(neighborCell);
+    }
+  }
+
+  return surroundingsCount;
 };
 
 export const getNewState = (initState: string): string => {

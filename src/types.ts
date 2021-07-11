@@ -4,3 +4,8 @@ export enum CellStates {
 }
 
 export type GameAreaType = Array<Array<CellStates>>;
+
+export interface ICellPosition {
+  x: number;
+  y: number;
+}

@@ -50,7 +50,7 @@ export const getCellSurroundingsCount = (
 
       if (neighborCellX === x && neighborCellY === y) continue;
 
-      const neighborCell = gameArea[neighborCellY]?.[neighborCellX];
+      const neighborCell = gameArea[neighborCellY] && gameArea[neighborCellY][neighborCellX];
       if (neighborCell) surroundingsCount += parseInt(neighborCell);
     }
   }
@@ -59,5 +59,34 @@ export const getCellSurroundingsCount = (
 };
 
 export const getNewState = (initState: string): string => {
-  return '';
+  const parsedGameArea = getParsedGameArea(initState);
+  const newGameArea: GameAreaType = [];
+
+  for (const y in parsedGameArea) {
+    const currentRow = parsedGameArea[y];
+    newGameArea.push([]);
+
+    for (const x in currentRow) {
+      const currentCellSurroundings = getCellSurroundingsCount(parsedGameArea, {
+        x: parseInt(x),
+        y: parseInt(y),
+      });
+
+      if (parsedGameArea[y][x] === CellStates.LIVE) {
+        if (currentCellSurroundings === 2 || currentCellSurroundings === 3) {
+          newGameArea[y][x] = CellStates.LIVE;
+        } else {
+          newGameArea[y][x] = CellStates.DEAD;
+        }
+      } else {
+        if (currentCellSurroundings === 3) {
+          newGameArea[y][x] = CellStates.LIVE;
+        } else {
+          newGameArea[y][x] = CellStates.DEAD;
+        }
+      }
+    }
+  }
+
+  return getStringifiedGameArea(newGameArea);
 };

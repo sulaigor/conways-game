@@ -1,7 +1,6 @@
 import { CellStates, GameAreaType } from './types';
 import { STATE_ONE, STATE_TWO } from './states';
 import { getNewState, getParsedGameArea, getStringifiedGameArea, getCellSurroundingsCount } from './utils';
-import { notDeepEqual } from 'assert';
 
 const STRING_STATE = '1,0;0,1;';
 const ARRAY_STATE: GameAreaType = [

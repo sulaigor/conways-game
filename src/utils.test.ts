@@ -1,6 +1,7 @@
 import { CellStates, GameAreaType } from './types';
 import { STATE_ONE, STATE_TWO } from './states';
 import { getNewState, getParsedGameArea, getStringifiedGameArea, getCellSurroundingsCount } from './utils';
+import { notDeepEqual } from 'assert';
 
 const STRING_STATE = '1,0;0,1;';
 const ARRAY_STATE: GameAreaType = [
@@ -15,14 +16,20 @@ describe('getParsedGameArea function:', () => {
 
   test('throw error while game state contains not valid cell states', () => {
     const notValidState = '1,2;0,1;';
-
     expect(() => getParsedGameArea(notValidState)).toThrowError('Not valid cell states!');
   });
 
   test('throw error while game state is now square', () => {
     const notValidState = '1,0;';
-
     expect(() => getParsedGameArea(notValidState)).toThrowError('Not valid game state!');
+  });
+
+  test('not throw error while using STATE_ONE', () => {
+    expect(() => getParsedGameArea(STATE_ONE)).not.toThrowError('Not valid cell states!');
+  });
+
+  test('not throw error while using STATE_TWO', () => {
+    expect(() => getParsedGameArea(STATE_TWO)).not.toThrowError('Not valid cell states!');
   });
 });
 

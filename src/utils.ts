@@ -2,12 +2,16 @@ import { CELL_SEPARATOR, ROW_SEPARATOR } from './const';
 import { CellStates, GameAreaType, ICellPosition } from './types';
 
 export const getParsedGameArea = (gameState: string): GameAreaType => {
-  const parsedState = gameState.split(ROW_SEPARATOR).reduce((acc: GameAreaType, row) => {
-    if (row) {
-      acc.push(row.split(CELL_SEPARATOR) as Array<CellStates>);
-    }
-    return acc;
-  }, []);
+  const parsedState = gameState
+    .replace(/\s+/g, ' ')
+    .trim()
+    .split(ROW_SEPARATOR)
+    .reduce((acc: GameAreaType, row) => {
+      const trimedRow = row.trim();
+
+      if (trimedRow) acc.push(trimedRow.split(CELL_SEPARATOR) as Array<CellStates>);
+      return acc;
+    }, []);
 
   for (const rowArr of parsedState) {
     if (rowArr.some((cell) => cell !== CellStates.LIVE && cell !== CellStates.DEAD)) {

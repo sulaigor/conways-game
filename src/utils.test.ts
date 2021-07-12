@@ -6,6 +6,7 @@ import {
   getStringifiedGameArea,
   getCellSurroundingsCount,
   isCellLive,
+  getCellState,
 } from './utils';
 
 const STRING_STATE = '1,0;0,1;';
@@ -79,6 +80,16 @@ describe('isCellLive function:', () => {
 
   test('returns false while receive dead cell state', () => {
     expect(isCellLive(CellStates.DEAD)).toBe(false);
+  });
+});
+
+describe('getCellState function:', () => {
+  test('returns live cell state while receive true condition', () => {
+    expect(getCellState(true)).toBe(CellStates.LIVE);
+  });
+
+  test('returns dead cell state while receive false condition', () => {
+    expect(getCellState(false)).toBe(CellStates.DEAD);
   });
 });
 

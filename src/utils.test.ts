@@ -1,6 +1,12 @@
 import { CellStates, GameAreaType } from './types';
 import { STATE_ONE, STATE_TWO } from './states';
-import { getNewState, getParsedGameArea, getStringifiedGameArea, getCellSurroundingsCount } from './utils';
+import {
+  getNewState,
+  getParsedGameArea,
+  getStringifiedGameArea,
+  getCellSurroundingsCount,
+  isCellLive,
+} from './utils';
 
 const STRING_STATE = '1,0;0,1;';
 const ARRAY_STATE: GameAreaType = [
@@ -63,6 +69,16 @@ describe('getCellSurroundingsCount function:', () => {
 
   test('not throw error while position is in of game area', () => {
     expect(() => getCellSurroundingsCount(gameArea, { x: 0, y: 0 })).not.toThrowError('Not valid position!');
+  });
+});
+
+describe('isCellLive function:', () => {
+  test('returns true while receive live cell state', () => {
+    expect(isCellLive(CellStates.LIVE)).toBe(true);
+  });
+
+  test('returns false while receive dead cell state', () => {
+    expect(isCellLive(CellStates.DEAD)).toBe(false);
   });
 });
 

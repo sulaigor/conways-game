@@ -58,6 +58,8 @@ export const getCellSurroundingsCount = (
   return surroundingsCount;
 };
 
+export const isCellLive = (cellState: CellStates): boolean => cellState === CellStates.LIVE;
+
 export const getNewState = (currentGameArea: GameAreaType): GameAreaType => {
   const newGameArea: GameAreaType = [];
 
@@ -71,7 +73,7 @@ export const getNewState = (currentGameArea: GameAreaType): GameAreaType => {
         y: parseInt(y),
       });
 
-      if (currentGameArea[y][x] === CellStates.LIVE) {
+      if (isCellLive(currentGameArea[y][x])) {
         if (currentCellSurroundings === 2 || currentCellSurroundings === 3) {
           newGameArea[y][x] = CellStates.LIVE;
         } else {

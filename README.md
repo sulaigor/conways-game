@@ -17,3 +17,9 @@ const newState = getNewState(initState);
 
 - Live state is represent by `CellStates.LIVE | '1'`
 - Dead state is represent by `CellStates.DEAD | '0'`
+
+### Feel free to try example:
+
+```bash
+  yarn example | npm run example
+```
